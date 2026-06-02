@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bewerbung — Alexander Torii // MCD Curator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root {
+  --navy:   #070d1a;
+  --navy2:  #0b1828;
+  --navy3:  #0e1e36;
+  --navy4:  #122244;
+  --blue:   #163d7a;
+  --accent: #1f6bbf;
+  --acc2:   #3d9aff;
+  --gold:   #c8a84b;
+  --gold2:  #f0c96a;
+  --green:  #2ecc71;
+  --red:    #e74c3c;
+  --text:   #dce8f8;
+  --text2:  #a8c0d8;
+  --muted:  #4a6a98;
+  --muted2: #2a4a78;
+  --bdr:    rgba(30,80,160,0.4);
+  --bdr2:   rgba(30,80,160,0.18);
+  --glow:   rgba(61,154,255,0.08);
+  --mono:   'Share Tech Mono', monospace;
+  --bar:    'Barlow Condensed', sans-serif;
+  --body:   'Barlow', sans-serif;
+}
+
+html { height:100%; zoom:1.15; }
+
+body {
+  font-family: var(--body);
+  background: var(--navy);
+  color: var(--text);
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* subtle grid bg */
+body::after {
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(30,80,160,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30,80,160,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events:none;z-index:0;
+}
+
+/* ─── SYSBAR ─── */
+.sysbar {
+  height:32px; flex-shrink:0;
+  background:rgba(4,8,18,0.98);
+  border-bottom:1px solid var(--bdr);
+  padding:0 2.5rem;
+  display:flex; align-items:center; justify-content:space-between;
+  z-index:200; position:relative;
+}
+.sysbar-l{font-family:var(--mono);font-size:10px;color:var(--muted2);letter-spacing:.15em;}
+.sysbar-r{display:flex;align-items:center;gap:2rem;}
+.sys-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1;box-shadow:0 0 4px var(--green)}50%{opacity:.3;box-shadow:none}}
+.sysbar-st{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--green);}
+.sysbar-id{font-family:var(--mono);font-size:10px;color:var(--muted);}
+
+/* ─── NAVBAR ─── */
+.navbar {
+  height:50px; flex-shrink:0;
+  background:rgba(8,18,38,0.97);
+  border-bottom:1px solid var(--bdr);
+  position:relative; z-index:199;
+}
+.navbar::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity:.3;
+}
+.nb-inner {
+  height:100%; max-width:1300px; margin:0 auto; padding:0 2.5rem;
+  display:flex; align-items:stretch;
+}
+.nb-brand {
+  font-family:var(--bar);font-size:14px;font-weight:700;
+  letter-spacing:.25em;color:var(--gold);
+  padding:0 1.75rem 0 0; margin-right:1.5rem;
+  border-right:1px solid var(--bdr);
+  display:flex;align-items:center;gap:10px;
+  text-transform:uppercase;white-space:nowrap;
+}
+.nb-brand-star{color:var(--gold);font-size:10px;opacity:.7;}
+.nav-tabs{display:flex;align-items:stretch;flex:1;}
+.nav-tab {
+  font-family:var(--bar);font-size:11.5px;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted); padding:0 1.2rem;
+  cursor:pointer;border:none;background:none;
+  border-bottom:2px solid transparent;
+  display:flex;align-items:center;gap:8px;
+  transition:all .2s; white-space:nowrap;
+  position:relative;
+}
+.nav-tab:hover{color:var(--text2);background:rgba(61,154,255,.06);}
+.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(200,168,75,.06);}
+.tab-num{font-family:var(--mono);font-size:9px;color:var(--muted2);transition:color .2s;}
+.nav-tab.active .tab-num{color:var(--gold);opacity:.5;}
+.nav-tab.active::before{
+  content:'';position:absolute;top:8px;bottom:8px;left:0;
+  width:2px;background:var(--gold);opacity:.4;border-radius:1px;
+}
+
+/* ─── LAYOUT SHELL ─── */
+.main{flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0;position:relative;z-index:1;}
+.page{display:none;flex:1;flex-direction:column;min-height:0;overflow:hidden;}
+.page.active{display:flex;animation:pageIn .3s cubic-bezier(.22,1,.36,1);}
+@keyframes pageIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ─── FOOTER ─── */
+.footer {
+  height:34px; flex-shrink:0;
+  background:rgba(4,8,18,0.98);
+  border-top:1px solid var(--bdr);
+  padding:0 2.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  position:relative;z-index:200;
+}
+.footer::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--acc2),transparent);
+  opacity:.2;
+}
+.ftxt{font-family:var(--mono);font-size:9px;color:var(--muted2);letter-spacing:.12em;}
+
+/* ─── SHARED ELEMENTS ─── */
+.lbl{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.2em;text-transform:uppercase;margin-bottom:.35rem;}
+.heading{
+  font-family:var(--bar);font-size:22px;font-weight:700;color:var(--text);
+  letter-spacing:.05em;text-transform:uppercase;
+  padding-bottom:.6rem;margin-bottom:1.25rem;
+  border-bottom:1px solid var(--bdr);
+  display:flex;align-items:center;gap:12px;flex-shrink:0;
+}
+.heading::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--bdr),transparent);}
+
+.card{background:var(--navy2);border:1px solid var(--bdr);border-radius:6px;overflow:hidden;}
+.card-hdr{
+  background:var(--navy3);padding:8px 16px;
+  font-family:var(--mono);font-size:9.5px;color:var(--muted);
+  letter-spacing:.18em;border-bottom:1px solid var(--bdr);
+  text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;
+  flex-shrink:0;
+}
+.row{display:flex;justify-content:space-between;align-items:center;padding:9px 16px;border-bottom:1px solid var(--bdr2);flex:1;}
+.row:last-child{border-bottom:none;}
+.k{font-family:var(--mono);font-size:10px;color:var(--muted);}
+.v{font-family:var(--bar);font-size:13px;font-weight:600;color:var(--text);}
+.v.ac{color:var(--acc2);}
+.v.go{color:var(--gold);}
+.v.gr{color:var(--green);}
+
+.badge{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:2px 10px;font-family:var(--mono);font-size:9px;}
+.badge-green{background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3);color:var(--green);}
+.badge-gold{background:rgba(200,168,75,.12);border:1px solid rgba(200,168,75,.35);color:var(--gold);}
+.badge-blue{background:rgba(61,154,255,.12);border:1px solid rgba(61,154,255,.3);color:var(--acc2);}
+
+.pulse{animation:blink 2s infinite;}
+
+/* ════════════════════════════════════
+   PAGE 1 — COVER
+════════════════════════════════════ */
+#cover {
+  background:
+    radial-gradient(ellipse 70% 60% at 15% 50%, rgba(22,61,122,.35) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 85% 80%, rgba(200,168,75,.08) 0%, transparent 55%);
+}
+#cover .wrap{
+  flex:1;max-width:1300px;width:100%;margin:0 auto;
+  padding:2rem 2.5rem;
+  display:grid;grid-template-columns:1fr 290px;gap:2.5rem;align-items:stretch;
+}
+.cover-l{display:flex;flex-direction:column;justify-content:center;gap:1rem;}
+.cv-dept{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.2em;display:flex;align-items:center;gap:8px;}
+.cv-dept span{color:var(--gold);}
+.cv-name{
+  font-family:var(--bar);font-size:min(6vw,72px);font-weight:700;
+  line-height:.88;color:var(--text);letter-spacing:-.01em;
+}
+.cv-name em{display:block;color:var(--gold);font-style:normal;
+  text-shadow:0 0 40px rgba(200,168,75,.3);}
+.cv-sub{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.18em;}
+.cv-pos{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(22,61,122,.6);
+  border:1px solid rgba(31,107,191,.6);
+  border-radius:4px;padding:9px 18px;width:fit-content;
+  font-family:var(--bar);font-size:13px;font-weight:700;
+  letter-spacing:.14em;color:#a8c8f0;text-transform:uppercase;
+}
+.cv-curpos{
+  display:flex;align-items:center;gap:14px;
+  padding:12px 16px;
+  background:rgba(200,168,75,.07);
+  border:1px solid rgba(200,168,75,.22);
+  border-left:3px solid var(--gold);
+  border-radius:0 5px 5px 0;
+}
+.curpos-lbl{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:3px;}
+.curpos-val{font-family:var(--bar);font-size:15px;font-weight:700;color:var(--text);}
+
+.cover-r{display:flex;flex-direction:column;}
+.info-panel{background:rgba(11,24,40,.8);border:1px solid var(--bdr);border-radius:6px;overflow:hidden;display:flex;flex-direction:column;flex:1;
+  backdrop-filter:blur(4px);}
+.info-panel .row{flex:unset;}
+.info-panel .rows-stretch{display:flex;flex-direction:column;flex:1;}
+.info-panel .rows-stretch .row{flex:1;min-height:36px;}
+
+/* ════════════════════════════════════
+   PAGE 2 — PROFIL
+════════════════════════════════════ */
+#profil .wrap{
+  flex:1;max-width:1300px;width:100%;margin:0 auto;
+  padding:1.75rem 2.5rem;
+  display:flex;flex-direction:column;
+}
+.profil-body{
+  flex:1;display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:1fr auto;
+  gap:1rem;min-height:0;
+}
+.profil-card{display:flex;flex-direction:column;}
+.profil-card .rows-flex{display:flex;flex-direction:column;flex:1;}
+.profil-card .rows-flex .row{flex:1;min-height:0;}
+.statement{
+  grid-column:1/-1;
+  background:var(--navy2);
+  border:1px solid var(--bdr);
+  border-left:3px solid var(--acc2);
+  border-radius:0 6px 6px 0;
+  padding:1.1rem 1.4rem;
+  display:flex;flex-direction:column;gap:.5rem;
+}
+.stmt-lbl{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.18em;}
+.stmt-txt{font-size:13px;line-height:1.75;color:var(--text2);}
+
+/* ════════════════════════════════════
+   PAGE 3 — ERFAHRUNG
+════════════════════════════════════ */
+#erfahrung .wrap{
+  flex:1;max-width:1300px;width:100%;margin:0 auto;
+  padding:1.75rem 2.5rem;
+  display:flex;flex-direction:column;
+}
+.exp-body{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:1rem;min-height:0;}
+.exp-panel{display:flex;flex-direction:column;overflow:hidden;}
+.exp-panel .inner{flex:1;overflow-y:auto;display:flex;flex-direction:column;}
+
+.srv-title{
+  font-family:var(--mono);font-size:9.5px;color:var(--acc2);
+  letter-spacing:.2em;text-transform:uppercase;
+  padding:8px 16px;border-bottom:1px solid var(--bdr);
+  background:rgba(61,154,255,.05);flex-shrink:0;
+}
+.exp-row{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:1rem;padding:11px 16px;border-bottom:1px solid var(--bdr2);
+  flex:1;min-height:52px;
+  transition:background .15s;
+}
+.exp-row:last-child{border-bottom:none;}
+.exp-row:hover{background:rgba(61,154,255,.04);}
+.exp-role{font-family:var(--bar);font-size:14px;font-weight:600;color:var(--text);}
+.exp-under{font-size:11px;color:var(--muted);margin-top:2px;}
+.exp-tag{font-family:var(--mono);font-size:9.5px;white-space:nowrap;padding:3px 10px;border-radius:20px;border:1px solid var(--bdr);background:rgba(30,80,160,.2);color:var(--muted);}
+.exp-tag.live{color:var(--green);background:rgba(46,204,113,.1);border-color:rgba(46,204,113,.3);}
+
+.stats-panel{display:flex;flex-direction:column;gap:1rem;}
+.stat-summary{background:var(--navy2);border:1px solid var(--bdr);border-radius:6px;padding:1.1rem 1.4rem;}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;flex:1;}
+.stat-box{
+  background:var(--navy3);border:1px solid var(--bdr);border-radius:5px;
+  padding:.9rem;text-align:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  transition:border-color .2s,transform .2s;cursor:default;
+}
+.stat-box:hover{border-color:var(--acc2);transform:translateY(-2px);}
+.stat-num{font-family:var(--bar);font-size:32px;font-weight:700;line-height:1;}
+.stat-lbl{font-family:var(--mono);font-size:9px;color:var(--muted);}
+
+/* ════════════════════════════════════
+   PAGE 4 — STÄRKEN
+════════════════════════════════════ */
+#staerken .wrap{
+  flex:1;max-width:1300px;width:100%;margin:0 auto;
+  padding:1.75rem 2.5rem;
+  display:flex;flex-direction:column;
+}
+.str-grid{
+  flex:1;display:grid;
+  grid-template-columns:repeat(4,1fr);
+  grid-template-rows:1fr 1fr;
+  gap:.9rem;min-height:0;
+}
+.str-card{
+  background:var(--navy2);border:1px solid var(--bdr);border-radius:6px;
+  padding:1.1rem;
+  display:flex;flex-direction:column;
+  transition:border-color .25s,transform .2s,background .2s;
+  cursor:default;position:relative;overflow:hidden;
+}
+.str-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--card-c,var(--acc2)),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.str-card:hover{border-color:var(--card-c,var(--acc2));transform:translateY(-3px);background:rgba(61,154,255,.04);}
+.str-card:hover::before{opacity:1;}
+.str-icon{font-size:22px;margin-bottom:10px;color:var(--card-c,var(--acc2));}
+.str-name{font-family:var(--bar);font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:.06em;text-transform:uppercase;}
+.str-desc{font-size:11.5px;line-height:1.6;color:var(--muted);flex:1;}
+
+/* ════════════════════════════════════
+   PAGE 5 — MOTIVATION
+════════════════════════════════════ */
+#motivation .wrap{
+  flex:1;max-width:1300px;width:100%;margin:0 auto;
+  padding:1.75rem 2.5rem;
+  display:flex;flex-direction:column;
+}
+.mot-body-grid{flex:1;display:grid;grid-template-columns:1fr 300px;gap:1.25rem;min-height:0;}
+.mot-left{display:flex;flex-direction:column;gap:1rem;overflow:hidden;}
+.mot-text{font-size:13.5px;line-height:1.85;color:var(--text2);}
+.mot-quote{
+  background:rgba(200,168,75,.06);
+  border:1px solid rgba(200,168,75,.2);
+  border-left:3px solid var(--gold);
+  border-radius:0 6px 6px 0;
+  padding:1rem 1.25rem;
+  font-style:italic;font-size:14px;line-height:1.7;color:var(--text);
+  flex-shrink:0;
+}
+.mot-text2{font-size:13px;line-height:1.85;color:var(--text2);}
+
+.mot-right{display:flex;flex-direction:column;}
+.mot-panel{
+  background:var(--navy2);border:1px solid var(--bdr);border-radius:6px;
+  overflow:hidden;display:flex;flex-direction:column;flex:1;
+}
+.mot-panel-hdr{background:var(--navy3);padding:8px 16px;font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:.18em;border-bottom:1px solid var(--bdr);text-transform:uppercase;flex-shrink:0;}
+.mot-row{padding:0 16px;border-bottom:1px solid var(--bdr2);display:flex;align-items:center;gap:10px;font-size:12px;color:var(--text2);line-height:1.4;flex:1;transition:background .15s;}
+.mot-row:last-child{border-bottom:none;}
+.mot-row:hover{background:rgba(61,154,255,.05);}
+.mot-tick{color:var(--green);font-size:13px;flex-shrink:0;}
+
+/* ════════════════════════════════════
+   PAGE 6 — KONTAKT
+════════════════════════════════════ */
+#kontakt .wrap{
+  flex:1;max-width:1300px;width:100%;margin:0 auto;
+  padding:1.75rem 2.5rem;
+  display:flex;flex-direction:column;
+}
+#kontakt .kt-grid{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;min-height:0;}
+.kt-card{display:flex;flex-direction:column;}
+.kt-hdr{background:var(--navy3);padding:14px 16px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:14px;flex-shrink:0;}
+.avatar{width:50px;height:50px;border-radius:50%;background:var(--blue);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--bar);font-size:17px;font-weight:700;color:#a8c8f0;flex-shrink:0;
+  box-shadow:0 0 20px rgba(31,107,191,.3);}
+.kt-name{font-family:var(--bar);font-size:19px;font-weight:700;color:var(--text);}
+.kt-sub{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:2px;}
+.kt-rows{flex:1;display:flex;flex-direction:column;}
+.kt-rows .row{flex:1;min-height:0;}
+
+.closing{
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(22,61,122,.35) 0%, transparent 70%);
+  border:1px solid var(--bdr);border-radius:6px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:2rem;gap:1rem;
+  position:relative;overflow:hidden;
+}
+.closing::before{
+  content:'★';
+  position:absolute;font-size:160px;font-family:var(--bar);
+  color:rgba(200,168,75,.04);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  pointer-events:none;
+}
+.cl-dept{font-family:var(--mono);font-size:9px;color:var(--muted2);letter-spacing:.2em;}
+.cl-name{font-family:var(--bar);font-size:30px;font-weight:700;color:var(--text);
+  text-shadow:0 0 30px rgba(200,168,75,.2);}
+.cl-pos{font-family:var(--mono);font-size:11px;color:var(--gold);}
+.cl-body{font-size:12.5px;line-height:1.7;color:var(--text2);max-width:260px;}
+.discord-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(61,154,255,.1);
+  border:1px solid rgba(61,154,255,.35);
+  border-radius:5px;padding:10px 24px;
+  font-family:var(--mono);font-size:12.5px;color:#a8c8f0;
+  transition:background .2s,border-color .2s;cursor:default;
+}
+.discord-btn:hover{background:rgba(61,154,255,.2);border-color:rgba(61,154,255,.6);}
+</style>
+</head>
+<body>
+
+<!-- SYSBAR -->
+<div class="sysbar">
+  <span class="sysbar-l">MCD // BEWERBUNGSPORTAL // GESICHERT // EST. 2026</span>
+  <div class="sysbar-r">
+    <div class="sysbar-st"><span class="sys-dot pulse"></span>SYSTEM AKTIV</div>
+    <span class="sysbar-id">BEWERBER // ID 86783</span>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nb-inner">
+    <div class="nb-brand"><span class="nb-brand-star">★</span>MCD Bewerbung</div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="go('cover',this)"><span class="tab-num">01</span>Übersicht</button>
+      <button class="nav-tab" onclick="go('profil',this)"><span class="tab-num">02</span>Profil</button>
+      <button class="nav-tab" onclick="go('erfahrung',this)"><span class="tab-num">03</span>Erfahrung</button>
+      <button class="nav-tab" onclick="go('staerken',this)"><span class="tab-num">04</span>Stärken</button>
+      <button class="nav-tab" onclick="go('motivation',this)"><span class="tab-num">05</span>Motivation</button>
+      <button class="nav-tab" onclick="go('kontakt',this)"><span class="tab-num">06</span>Kontakt</button>
+    </div>
+  </div>
+</nav>
+
+<div class="main">
+
+<!-- ══════ COVER ══════ -->
+<div class="page active" id="cover">
+  <div class="wrap">
+    <div class="cover-l">
+      <div class="cv-dept"><span>★</span> MCD Bewerbungsportal <span>★</span> Vertraulich</div>
+      <div class="cv-name">ALEXANDER<br><em>TORII</em></div>
+      <div class="cv-sub">// BEWERBUNG FÜR DEN CURATOR POSTEN</div>
+      <div><div class="cv-pos">★&nbsp; Curator — MCD</div></div>
+      <div class="cv-curpos">
+        <div>
+          <div class="curpos-lbl">Aktuelle Position</div>
+          <div class="curpos-val">Assistant Commander of Unit</div>
+        </div>
+      </div>
+    </div>
+    <div class="cover-r">
+      <div class="info-panel">
+        <div class="card-hdr"><span>Bewerbungsdaten</span><span style="display:flex;align-items:center;gap:5px;color:var(--green)"><span class="sys-dot pulse"></span>Aktiv</span></div>
+        <div class="rows-stretch">
+          <div class="row"><span class="k">Spieler-ID</span><span class="v">86783</span></div>
+          <div class="row"><span class="k">IC Telefon</span><span class="v">67-54-056</span></div>
+          <div class="row"><span class="k">OOC Name</span><span class="v">Alexander</span></div>
+          <div class="row"><span class="k">Discord</span><span class="v ac">alexander_1856</span></div>
+          <div class="row"><span class="k">Bewerbungsziel</span><span class="v go">Curator</span></div>
+          <div class="row"><span class="k">Department</span><span class="v">MCD</span></div>
+          <div class="row"><span class="k">Aktuelle Pos.</span><span class="v" style="font-size:11px;color:var(--gold)">Asst. Commander</span></div>
+          <div class="row"><span class="k">Status</span><span class="badge badge-green"><span class="sys-dot pulse"></span>Aktiv</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ PROFIL ══════ -->
+<div class="page" id="profil">
+  <div class="wrap">
+    <div class="lbl">// Sektion 01</div>
+    <div class="heading">Profil</div>
+    <div class="profil-body">
+      <div class="card profil-card">
+        <div class="card-hdr">Persönliche Daten</div>
+        <div class="rows-flex">
+          <div class="row"><span class="k">RP Name</span><span class="v">Alexander Torii</span></div>
+          <div class="row"><span class="k">Spieler-ID</span><span class="v ac">86783</span></div>
+          <div class="row"><span class="k">IC Telefon</span><span class="v">67-54-056</span></div>
+          <div class="row"><span class="k">OOC Name</span><span class="v">Alexander</span></div>
+          <div class="row"><span class="k">Discord</span><span class="v ac">alexander_1856</span></div>
+          <div class="row"><span class="k">Status</span><span class="badge badge-green"><span class="sys-dot pulse"></span>Aktiv</span></div>
+        </div>
+      </div>
+      <div class="card profil-card">
+        <div class="card-hdr">Positionsdaten</div>
+        <div class="rows-flex">
+          <div class="row"><span class="k">Department</span><span class="v">MCD</span></div>
+          <div class="row"><span class="k">Aktuelle Position</span><span class="v go" style="font-size:11.5px;">Asst. Commander of Unit</span></div>
+          <div class="row"><span class="k">Bewerbungsziel</span><span class="v ac">Curator</span></div>
+          <div class="row"><span class="k">Führungspositionen</span><span class="v">3+ Positionen</span></div>
+          <div class="row"><span class="k">Gesamterfahrung</span><span class="v">1+ Jahre</span></div>
+          <div class="row"><span class="k">Verfügbarkeit</span><span class="badge badge-green"><span class="sys-dot pulse"></span>Aktiv & Verfügbar</span></div>
+        </div>
+      </div>
+      <div class="statement">
+        <div class="stmt-lbl">// Persönliches Statement</div>
+        <div class="stmt-txt">Als erfahrene Führungsperson mit umfassendem Background in verschiedenen Divisionen habe ich ein tiefes Verständnis für effektive Koordination und strukturierte Teamführung entwickelt. Mein Fokus liegt auf klarer Kommunikation, professionellem Handeln unter Druck und der kontinuierlichen Stärkung des Departments durch gemeinsamen Einsatz.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ ERFAHRUNG ══════ -->
+<div class="page" id="erfahrung">
+  <div class="wrap">
+    <div class="lbl">// Sektion 02</div>
+    <div class="heading">Erfahrung</div>
+    <div class="exp-body">
+      <div class="card exp-panel">
+        <div class="srv-title">Aktuelle Position &amp; Werdegang</div>
+        <div class="inner">
+          <div class="exp-row">
+            <div><div class="exp-role">Assistant Commander of Unit</div><div class="exp-under">MCD — Aktive Führungsverantwortung</div></div>
+            <span class="exp-tag live">● AKTIV</span>
+          </div>
+          <div class="srv-title">Grand Roleplay DE</div>
+          <div class="exp-row">
+            <div><div class="exp-role">FIBCO-Mitglied</div><div class="exp-under">Unter: Dimitri Jugovic &amp; Gustavo Herrera</div></div>
+            <span class="exp-tag">Mitglied</span>
+          </div>
+          <div class="exp-row">
+            <div><div class="exp-role">SOC-Leitung</div><div class="exp-under">Unter: Chris Cruz — Special Operations Command</div></div>
+            <span class="exp-tag">2 Mon.</span>
+          </div>
+          <div class="exp-row">
+            <div><div class="exp-role">Infanterie-Leitung</div><div class="exp-under">Unter: Leon Otiz — INF &amp; Black Ops</div></div>
+            <span class="exp-tag">3 Mon.</span>
+          </div>
+          <div class="exp-row" style="border-bottom:none;">
+            <div><div class="exp-role">Airforce-Leitung</div><div class="exp-under">Unter: Lucie &amp; Noah Freilich</div></div>
+            <span class="exp-tag">2 Mon.</span>
+          </div>
+        </div>
+      </div>
+      <div class="stats-panel">
+        <div class="stat-summary">
+          <div class="stmt-lbl" style="margin-bottom:.5rem;">// Zusammenfassung</div>
+          <div class="stmt-txt">Erfahrung aus mehreren Leitungspositionen in verschiedenen Divisionen. Breites Verständnis für unterschiedliche Strukturen, Prozesse und Arbeitsweisen innerhalb der Organisation.</div>
+        </div>
+        <div class="stat-grid" style="flex:1;">
+          <div class="stat-box" style="--c:var(--gold)">
+            <div class="stat-num" style="color:var(--gold);">3+</div>
+            <div class="stat-lbl">Leitungspositionen</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num" style="color:var(--gold);">1+</div>
+            <div class="stat-lbl">Jahre Erfahrung</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num" style="color:var(--acc2);">2</div>
+            <div class="stat-lbl">Verschiedene Server</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num" style="color:var(--green);font-size:22px;">●&nbsp;Aktiv</div>
+            <div class="stat-lbl">Aktueller Status</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ STÄRKEN ══════ -->
+<div class="page" id="staerken">
+  <div class="wrap">
+    <div class="lbl">// Sektion 03</div>
+    <div class="heading">Stärken</div>
+    <div class="str-grid">
+      <div class="str-card" style="--card-c:#3d9aff"><span class="str-icon">◎</span><div class="str-name">Kompetenz</div><div class="str-desc">Fachliche Exzellenz und strukturierte Prozesse. Klarheit in Entscheidungen und Prioritäten auf allen Ebenen.</div></div>
+      <div class="str-card" style="--card-c:#c8a84b"><span class="str-icon">◈</span><div class="str-name">Kommunikation</div><div class="str-desc">Klare Botschaften auf allen Ebenen — von Teammitgliedern bis zur Führungsspitze des Departments.</div></div>
+      <div class="str-card" style="--card-c:#a855f7"><span class="str-icon">◇</span><div class="str-name">Kritikfähigkeit</div><div class="str-desc">Offenheit für Feedback. Selbstreflexion und kontinuierliche Verbesserung als persönliche Grundhaltung.</div></div>
+      <div class="str-card" style="--card-c:#2ecc71"><span class="str-icon">◆</span><div class="str-name">Lösungsorientiert</div><div class="str-desc">Pragmatische Problemlösung unter Druck. Fokus auf Resultate statt auf reine Problembeschreibungen.</div></div>
+      <div class="str-card" style="--card-c:#f59e0b"><span class="str-icon">▲</span><div class="str-name">Teamwork</div><div class="str-desc">Erfahrung in der Führung und Motivierung von Teams zu gemeinsamer Höchstleistung und Zusammenhalt.</div></div>
+      <div class="str-card" style="--card-c:#ef4444"><span class="str-icon">■</span><div class="str-name">Stressresistenz</div><div class="str-desc">Ruhe und Überblick auch in kritischen Situationen. Objektives Handeln bei eskalierenden Lagen.</div></div>
+      <div class="str-card" style="--card-c:#06b6d4"><span class="str-icon">▣</span><div class="str-name">Organisation</div><div class="str-desc">Strukturierte Arbeitsweise mit Überblick über Prozesse, Personal und Prioritäten im laufenden Betrieb.</div></div>
+      <div class="str-card" style="--card-c:#3d9aff"><span class="str-icon">★</span><div class="str-name">Weiterentwicklung</div><div class="str-desc">Intrinsische Motivation zur stetigen Verbesserung — für mich persönlich und für das gesamte Department.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ MOTIVATION ══════ -->
+<div class="page" id="motivation">
+  <div class="wrap">
+    <div class="lbl">// Sektion 04</div>
+    <div class="heading">Motivation &amp; Anschreiben</div>
+    <div class="mot-body-grid">
+      <div class="mot-left">
+        <div class="mot-text">Ich bewerbe mich für den Curator Posten der MCD, weil ich wieder aktiv Verantwortung übernehmen und meine bisherigen Erfahrungen sinnvoll einbringen möchte. Im Laufe meiner Zeit konnte ich umfangreiche Erfahrungen in verschiedenen Bereichen sammeln — sowohl als normales Mitglied als auch in mehreren Leitungspositionen.</div>
+        <div class="mot-quote">"Ich habe gelernt, auch in stressigen und herausfordernden Situationen die Ruhe zu bewahren und objektiv zu handeln."</div>
+        <div class="mot-text2">Feedback nehme ich stets offen an und arbeite kontinuierlich an mir, um sowohl persönlich als auch im Team zu wachsen. Mir ist ein respektvoller Umgang wichtig und ich versuche immer, zuverlässig und professionell aufzutreten. Ich bin motiviert, bringe Erfahrung mit und bin bereit, Zeit und Engagement in die Position zu investieren.</div>
+      </div>
+      <div class="mot-right">
+        <div class="mot-panel">
+          <div class="mot-panel-hdr">// Kernkompetenzen für diese Rolle</div>
+          <div class="mot-row"><span class="mot-tick">✓</span>Organisationstalent &amp; strukturierte Arbeitsweise</div>
+          <div class="mot-row"><span class="mot-tick">✓</span>Stressresistenz &amp; ruhiges Auftreten in jeder Situation</div>
+          <div class="mot-row"><span class="mot-tick">✓</span>Kritikfähigkeit &amp; Offenheit für Feedback</div>
+          <div class="mot-row"><span class="mot-tick">✓</span>Teamfähigkeit &amp; Führungserfahrung</div>
+          <div class="mot-row"><span class="mot-tick">✓</span>Kommunikationsstärke auf allen Ebenen</div>
+          <div class="mot-row"><span class="mot-tick">✓</span>Motivation zur persönlichen Weiterentwicklung</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ KONTAKT ══════ -->
+<div class="page" id="kontakt">
+  <div class="wrap">
+    <div class="lbl">// Sektion 05</div>
+    <div class="heading">Kontakt &amp; Abschluss</div>
+    <div class="kt-grid">
+      <div class="card kt-card">
+        <div class="kt-hdr">
+          <div class="avatar">AT</div>
+          <div>
+            <div class="kt-name">Alexander Torii</div>
+            <div class="kt-sub">ID: 86783 // MCD-Bewerber // Curator Posten</div>
+          </div>
+        </div>
+        <div class="kt-rows">
+          <div class="row"><span class="k">RP Name</span><span class="v">Alexander Torii</span></div>
+          <div class="row"><span class="k">Spieler-ID</span><span class="v ac">86783</span></div>
+          <div class="row"><span class="k">IC Telefon</span><span class="v">67-54-056</span></div>
+          <div class="row"><span class="k">Aktuelle Position</span><span class="v go" style="font-size:11.5px;">Asst. Commander of Unit</span></div>
+          <div class="row"><span class="k">Discord</span><span class="v ac">alexander_1856</span></div>
+          <div class="row"><span class="k">Status</span><span class="badge badge-green"><span class="sys-dot pulse"></span>Aktiv &amp; Verfügbar</span></div>
+        </div>
+      </div>
+      <div class="closing">
+        <div class="cl-dept">MCD // BEWERBUNGSPORTAL // VERTRAULICH</div>
+        <div class="cl-name">Alexander Torii</div>
+        <div class="cl-pos">// CURATOR — MCD</div>
+        <div class="cl-body">Ich freue mich auf eine Rückmeldung und stehe für Rückfragen jederzeit zur Verfügung. Für alle Anfragen zur Bewerbung bin ich auf Discord erreichbar.</div>
+        <div class="discord-btn">◈&nbsp;&nbsp;alexander_1856</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <span class="ftxt">MCD // BEWERBUNGSPORTAL // VERTRAULICH</span>
+  <span class="ftxt">ALEXANDER TORII // ID 86783 // © 2026</span>
+</div>
+
+<script>
+function go(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
